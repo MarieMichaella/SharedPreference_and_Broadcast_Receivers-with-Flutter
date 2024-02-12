@@ -87,6 +87,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               ListTile(
+                leading: Icon(Icons.home),
+                title: Text('Home'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                  );
+                },
+              ),
+              ListTile(
                 leading: Icon(Icons.calculate),
                 title: Text('Calculator'),
                 onTap: () {
@@ -112,6 +123,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 leading: Icon(Icons.settings),
                 title: Text('Settings'),
 
+              ),
+
+              ListTile(
+                leading: Icon(Icons.help),
+                title: Text('Help'),
               ),
             ],
           ),

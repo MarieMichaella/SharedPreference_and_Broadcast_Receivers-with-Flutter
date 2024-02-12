@@ -15,7 +15,7 @@ class _AboutScreenState extends State<AboutScreen> {
 @override
 Widget build(BuildContext context) {
   ThemeData theme = Theme.of(context);
-  
+
   bool isDarkTheme = theme.brightness == Brightness.dark;
 
   return Scaffold(
@@ -30,7 +30,7 @@ Widget build(BuildContext context) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Welcome to Our Pet Shop Adoption!',
+            'Welcome to Pet Guardians!',
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
