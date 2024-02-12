@@ -21,8 +21,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -53,59 +60,58 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-drawer: Drawer(
-  child: Container(
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(70),
-    ),
-    child: Column(
-      children: [
-        Container(
+      drawer: Drawer(
+        child: Container(
           decoration: BoxDecoration(
-            color: Colors.blue,
+            borderRadius: BorderRadius.circular(70),
           ),
-          height: 100,
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 16.0),
-              child: Text(
-                'Menu',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                height: 100,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Text(
+                      'Menu',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
+              ListTile(
+                leading: Icon(Icons.calculate),
+                title: Text('Calculator'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CalculatorScreen()),
+                  );
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.info),
+                title: Text('About'),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AboutScreen()),
+                  );
+                },
+              ),
+            ],
           ),
         ),
-        ListTile(
-          leading: Icon(Icons.calculate),
-          title: Text('Calculator'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CalculatorScreen()),
-            );
-          },
-        ),
-        ListTile(
-          leading: Icon(Icons.info),
-          title: Text('About'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AboutScreen()),
-            );
-          },
-        ),
-      ],
-    ),
-  ),
-),
-
+      ),
       body: Stack(
         children: [
           Center(
@@ -126,66 +132,76 @@ drawer: Drawer(
               ),
             ),
           ),
-          Scaffold(
-            backgroundColor: Colors.transparent,
-            bottomNavigationBar: BottomNavigationBar(
-              items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: CircleAvatar(
-                      child: Icon(Icons.home),
-                      backgroundColor: Colors.blue,
-                    ),
-                  ),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: CircleAvatar(
-                      child: Icon(Icons.calculate),
-                      backgroundColor: Colors.blue,
-                    ),
-                  ),
-                  label: 'Calculator',
-                ),
-                BottomNavigationBarItem(
-                  icon: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: CircleAvatar(
-                      child: Icon(Icons.info),
-                      backgroundColor: Colors.blue,
-                    ),
-                  ),
-                  label: 'About',
-                ),
-              ],
-              selectedItemColor: Colors.blue,
-              onTap: (int index) {
-                if (index == 0) {
-                } else if (index == 1) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CalculatorScreen()),
-                  );
-                } else if (index == 2) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AboutScreen()),
-                  );
-                }
-              },
-            ),
-            body: Center(),
-          ),
         ],
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 1,
+              blurRadius: 10,
+              offset: Offset(0, -1), 
+            ),
+          ],
+        ),
+        child: BottomNavigationBar(
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: CircleAvatar(
+                  child: Icon(Icons.home),
+                  backgroundColor: Colors.blue,
+                ),
+              ),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: CircleAvatar(
+                  child: Icon(Icons.calculate),
+                  backgroundColor: Colors.blue,
+                ),
+              ),
+              label: 'Calculator',
+            ),
+            BottomNavigationBarItem(
+              icon: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: CircleAvatar(
+                  child: Icon(Icons.info),
+                  backgroundColor: Colors.blue,
+                ),
+              ),
+              label: 'About',
+            ),
+          ],
+          selectedItemColor: Colors.blue,
+          currentIndex: _selectedIndex,
+onTap: (int index) {
+        if (index == 0) {
+          // Handle Home screen navigation
+        } else if (index == 1) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CalculatorScreen()),
+          );
+        } else if (index == 2) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AboutScreen()),
+          );
+        }
+}
+        ),
       ),
     );
   }
