@@ -15,6 +15,7 @@ class _AboutScreenState extends State<AboutScreen> {
 @override
 Widget build(BuildContext context) {
   ThemeData theme = Theme.of(context);
+  
   bool isDarkTheme = theme.brightness == Brightness.dark;
 
   return Scaffold(

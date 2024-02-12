@@ -1,5 +1,7 @@
-import 'package:navigations/buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:navigations/buttons.dart';
+import 'package:navigations/main.dart';
+import 'Aboutscreen.dart';
 
 class CalculatorScreen extends StatefulWidget {
   const CalculatorScreen({Key? key}) : super(key: key);
@@ -12,6 +14,8 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   String number1 = "";
   String operand = "";
   String number2 = "";
+
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -69,42 +73,114 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
           ],
         ),
       ),
+bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 1,
+              blurRadius: 10,
+              offset: Offset(0, -1), 
+            ),
+          ],
+        ),
+        child: BottomNavigationBar(
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: CircleAvatar(
+                  child: Icon(Icons.home),
+                  backgroundColor: Colors.blue,
+                ),
+              ),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: CircleAvatar(
+                  child: Icon(Icons.calculate),
+                  backgroundColor: Colors.blue,
+                ),
+              ),
+              label: 'Calculator',
+            ),
+            BottomNavigationBarItem(
+              icon: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: CircleAvatar(
+                  child: Icon(Icons.info),
+                  backgroundColor: Colors.blue,
+                ),
+              ),
+              label: 'About',
+            ),
+          ],
+          selectedItemColor: Colors.blue,
+          currentIndex: _selectedIndex,
+          onTap: (int index) {
+            if (index == 0) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomeScreen()),
+              );
+            } else if (index == 1) {
+            } else if (index == 2) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AboutScreen()),
+              );
+            }
+          },
+        ),
+      ),
     );
   }
 
-Widget buildButton(value) {
-  return Padding(
-    padding: const EdgeInsets.all(4.0),
-    child: Material(
-      color: getBtnColor(value),
-      clipBehavior: Clip.hardEdge,
-      shape: CircleBorder(), 
-      child: InkWell(
-        onTap: () => onBtnTap(value),
-        child: Center(
-          child: Text(
-            value,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 30,
-              color: (isNumber(value) || [Btn.calculate].contains(value))
-                  ? Colors.white
-                  : Colors.green,
+
+  Widget buildButton(value) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: Material(
+        color: getBtnColor(value),
+        clipBehavior: Clip.hardEdge,
+        shape: const CircleBorder(), 
+        child: InkWell(
+          onTap: () => onBtnTap(value),
+          child: Center(
+            child: Text(
+              value,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
+                color: (isNumber(value) || [Btn.calculate].contains(value))
+                    ? Colors.white
+                    : Colors.green,
+              ),
             ),
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
-
-
-bool isNumber(String value) {
-  // Check if the value is a number (0-9 or dot)
-  return RegExp(r'^[0-9.]+$').hasMatch(value);
-}
+  bool isNumber(String value) {
+    // Check if the value is a number (0-9 or dot)
+    return RegExp(r'^[0-9.]+$').hasMatch(value);
+  }
 
   void onBtnTap(String value) {
     if (value == Btn.del) {
@@ -129,8 +205,8 @@ bool isNumber(String value) {
 
     if (value == Btn.negate) {
       applyNegation();
-    return;
-  }
+      return;
+    }
 
     appendValue(value);
   }
@@ -210,21 +286,18 @@ bool isNumber(String value) {
   }
 
   void appendValue(String value) {
-
     if (value != Btn.dot && int.tryParse(value) == null) {
       if (operand.isNotEmpty && number2.isNotEmpty) {
         calculate();
       }
       operand = value;
-    }
-    else if (number1.isEmpty || operand.isEmpty) {
+    } else if (number1.isEmpty || operand.isEmpty) {
       if (value == Btn.dot && number1.contains(Btn.dot)) return;
       if (value == Btn.dot && (number1.isEmpty || number1 == Btn.n0)) {
         value = "0.";
       }
       number1 += value;
-    }
-    else if (number2.isEmpty || operand.isNotEmpty) {
+    } else if (number2.isEmpty || operand.isNotEmpty) {
       if (value == Btn.dot && number2.contains(Btn.dot)) return;
       if (value == Btn.dot && (number2.isEmpty || number2 == Btn.n0)) {
         value = "0.";
@@ -235,40 +308,37 @@ bool isNumber(String value) {
     setState(() {});
   }
 
-void applyNegation() {
+  void applyNegation() {
+    if (operand.isEmpty) {
+      if (number1.startsWith("-")) {
+        number1 = number1.substring(1);
+      } else {
+        number1 = "-$number1";
+      }
+    } else {
+      if (number2.startsWith("-")) {
+        number2 = number2.substring(1);
+      } else {
+        number2 = "-$number2";
+      }
+    }
 
-  if (operand.isEmpty) {
-    if (number1.startsWith("-")) {
-      number1 = number1.substring(1);
-    } else {
-      number1 = "-$number1";
-    }
-  } else {
-    if (number2.startsWith("-")) {
-      number2 = number2.substring(1);
-    } else {
-      number2 = "-$number2";
-    }
+    setState(() {});
   }
 
-  setState(() {});
-}
-
-Color getBtnColor(value) {
-  return [Btn.del, Btn.clr].contains(value)
-      ? Colors.blueGrey
-      : [
-          Btn.per,
-          Btn.multiply,
-          Btn.add,
-          Btn.subtract,
-          Btn.divide,
-        ].contains(value)
-          ? Colors.grey.withOpacity(0.3)
-          : [Btn.calculate].contains(value)
-              ? Colors.green
-              : Colors.grey.withOpacity(0.3);
-
-}
-
+  Color getBtnColor(value) {
+    return [Btn.del, Btn.clr].contains(value)
+        ? Colors.blueGrey
+        : [
+            Btn.per,
+            Btn.multiply,
+            Btn.add,
+            Btn.subtract,
+            Btn.divide,
+          ].contains(value)
+            ? Colors.grey.withOpacity(0.3)
+            : [Btn.calculate].contains(value)
+                ? Colors.green
+                : Colors.grey.withOpacity(0.3);
+  }
 }

@@ -108,6 +108,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
               ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Settings'),
+
+              ),
             ],
           ),
         ),
@@ -115,21 +120,31 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Stack(
         children: [
           Center(
-            child: Positioned(
-              bottom: 100,
-              child: Container(
-                width: 200,
-                height: 200,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 250,
+                  height: 250,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Image.asset(
+                      'assets/images/image 2.png',
+                      fit: BoxFit.cover,
+                    ),
                 ),
-                child: ClipOval(
-                  child: Image.asset(
-                    'assets/images/hi.png',
-                    fit: BoxFit.cover,
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'Welcome to Pet Guardians!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
+              ],
             ),
           ),
         ],
@@ -186,21 +201,20 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
           selectedItemColor: Colors.blue,
           currentIndex: _selectedIndex,
-onTap: (int index) {
-        if (index == 0) {
-          // Handle Home screen navigation
-        } else if (index == 1) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => CalculatorScreen()),
-          );
-        } else if (index == 2) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AboutScreen()),
-          );
-        }
-}
+          onTap: (int index) {
+            if (index == 0) {
+            } else if (index == 1) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CalculatorScreen()),
+              );
+            } else if (index == 2) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AboutScreen()),
+              );
+            }
+          },
         ),
       ),
     );
