@@ -43,7 +43,6 @@ class HomeScreen extends StatelessWidget {
             child: IconButton(
               icon: Icon(Theme.of(context).brightness == Brightness.light ? Icons.brightness_6 : Icons.brightness_3),
               onPressed: () {
-                // Toggle theme
                 Brightness newBrightness = Theme.of(context).brightness == Brightness.light ? Brightness.dark : Brightness.light;
                 ThemeData newTheme = ThemeData(brightness: newBrightness);
                 Navigator.of(context).pushReplacement(
@@ -54,52 +53,59 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            Container(
-              constraints: BoxConstraints(
-                maxWidth: 100,
-              ),
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Colors.blue,
+drawer: Drawer(
+  child: Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(70),
+    ),
+    child: Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.blue,
+          ),
+          height: 100,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 16.0),
+              child: Text(
+                'Menu',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
                 ),
-                child: Text(
-                  'Menu',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
-                ),
               ),
             ),
-            ListTile(
-              leading: Icon(Icons.calculate),
-              title: Text('Calculator'),
-              onTap: () {
-                Navigator.pop(context); 
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CalculatorScreen()),
-                );
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.info),
-              title: Text('About'),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AboutScreen()),
-                );
-              },
-            ),
-          ],
+          ),
         ),
-      ),
+        ListTile(
+          leading: Icon(Icons.calculate),
+          title: Text('Calculator'),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CalculatorScreen()),
+            );
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.info),
+          title: Text('About'),
+          onTap: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AboutScreen()),
+            );
+          },
+        ),
+      ],
+    ),
+  ),
+),
+
       body: Stack(
         children: [
           Center(
@@ -120,7 +126,6 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-
           Scaffold(
             backgroundColor: Colors.transparent,
             bottomNavigationBar: BottomNavigationBar(
