@@ -10,7 +10,7 @@ class AboutScreen extends StatefulWidget {
 }
 
 class _AboutScreenState extends State<AboutScreen> {
-  int _selectedIndex = 2; // Initially set to the index of the About screen
+  int _selectedIndex = 2; 
 
 @override
 Widget build(BuildContext context) {
@@ -113,7 +113,7 @@ Widget build(BuildContext context) {
             color: Colors.black.withOpacity(0.2),
             spreadRadius: 1,
             blurRadius: 10,
-            offset: Offset(0, -1), // Shadow position
+            offset: Offset(0, -1), 
           ),
         ],
       ),
@@ -162,14 +162,12 @@ Widget build(BuildContext context) {
           setState(() {
             _selectedIndex = index;
           });
-          // Handle navigation to different screens based on index
           if (index == 0) {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => HomeScreen()),
             );
           } else if (index == 1) {
-            // Navigate to Calculator screen
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => CalculatorScreen()),

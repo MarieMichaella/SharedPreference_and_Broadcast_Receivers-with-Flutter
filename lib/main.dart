@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Navigator',
-      theme: theme, // Set the theme here
+      theme: theme,
       home: const HomeScreen(),
     );
   }
@@ -79,7 +79,7 @@ class HomeScreen extends StatelessWidget {
               leading: Icon(Icons.calculate),
               title: Text('Calculator'),
               onTap: () {
-                Navigator.pop(context); // Close the drawer
+                Navigator.pop(context); 
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => CalculatorScreen()),
@@ -90,7 +90,7 @@ class HomeScreen extends StatelessWidget {
               leading: Icon(Icons.info),
               title: Text('About'),
               onTap: () {
-                Navigator.pop(context); // Close the drawer
+                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => AboutScreen()),
@@ -102,7 +102,6 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Stack(
         children: [
-          // Background image
           Center(
             child: Positioned(
               bottom: 100,
@@ -165,17 +164,13 @@ class HomeScreen extends StatelessWidget {
               ],
               selectedItemColor: Colors.blue,
               onTap: (int index) {
-                // Handle navigation to different screens based on index
                 if (index == 0) {
-                  // Do nothing or navigate to Home screen
                 } else if (index == 1) {
-                  // Navigate to Calculator screen
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => CalculatorScreen()),
                   );
                 } else if (index == 2) {
-                  // Navigate to About screen
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => AboutScreen()),

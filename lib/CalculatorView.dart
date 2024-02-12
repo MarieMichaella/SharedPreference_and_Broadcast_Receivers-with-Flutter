@@ -23,7 +23,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context); // Navigate back when back button is pressed
+            Navigator.pop(context);
           },
         ),
       ),
