@@ -132,6 +132,10 @@ bottomNavigationBar: Container(
                 MaterialPageRoute(builder: (context) => HomeScreen()),
               );
             } else if (index == 1) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CalculatorScreen()),
+              );
             } else if (index == 2) {
               Navigator.push(
                 context,

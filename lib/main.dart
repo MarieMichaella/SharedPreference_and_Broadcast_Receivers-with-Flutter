@@ -219,6 +219,10 @@ class _HomeScreenState extends State<HomeScreen> {
           currentIndex: _selectedIndex,
           onTap: (int index) {
             if (index == 0) {
+                            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomeScreen()),
+              );
             } else if (index == 1) {
               Navigator.push(
                 context,

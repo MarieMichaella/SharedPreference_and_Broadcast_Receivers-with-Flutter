@@ -10,34 +10,48 @@ class AboutScreen extends StatefulWidget {
 }
 
 class _AboutScreenState extends State<AboutScreen> {
-  int _selectedIndex = 2; 
+  int _selectedIndex = 2;
 
-@override
-Widget build(BuildContext context) {
-  ThemeData theme = Theme.of(context);
+  @override
+  Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
 
-  bool isDarkTheme = theme.brightness == Brightness.dark;
+    bool isDarkTheme = theme.brightness == Brightness.dark;
 
-  return Scaffold(
-    appBar: AppBar(
-      title: Text('About Us'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('About Us'),
+      ),
+      backgroundColor: isDarkTheme ? Colors.black : Colors.white,
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              children: [
+                Text(
+                  'Welcome to Pet Guardians!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: isDarkTheme ? Colors.white : Colors.black,
+                  ),
+                ),
+SizedBox(
+  height: 200,
+  width: 200, 
+  child: Center(
+    child: Image.asset(
+      'assets/images/image 2.png',
+      fit: BoxFit.cover,
     ),
-    backgroundColor:
-        isDarkTheme ? Colors.black : Colors.white, 
-    body: SingleChildScrollView(
-      padding: EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Welcome to Pet Guardians!',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: isDarkTheme ? Colors.white : Colors.black,
+  ),
+),
+
+              ],
             ),
-          ),
-          SizedBox(height: 16.0),
+SizedBox(height: 16.0),
           Text(
             'Our Mission:',
             style: TextStyle(
@@ -104,80 +118,86 @@ Widget build(BuildContext context) {
               color: isDarkTheme ? Colors.white : Colors.black,
             ),
           ),
-        ],
+            
+          ],
+        ),
       ),
-    ),
-    bottomNavigationBar: Container(
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            spreadRadius: 1,
-            blurRadius: 10,
-            offset: Offset(0, -1), 
-          ),
-        ],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 1,
+              blurRadius: 10,
+              offset: Offset(0, -1),
+            ),
+          ],
+        ),
+        child: BottomNavigationBar(
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: CircleAvatar(
+                  child: Icon(Icons.home),
+                  backgroundColor: Colors.blue,
+                ),
+              ),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: CircleAvatar(
+                  child: Icon(Icons.calculate),
+                  backgroundColor: Colors.blue,
+                ),
+              ),
+              label: 'Calculator',
+            ),
+            BottomNavigationBarItem(
+              icon: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                ),
+                child: CircleAvatar(
+                  child: Icon(Icons.info),
+                  backgroundColor: Colors.blue,
+                ),
+              ),
+              label: 'About',
+            ),
+          ],
+          selectedItemColor: Colors.blue,
+          currentIndex: _selectedIndex,
+          onTap: (int index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+            if (index == 0) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomeScreen()),
+              );
+            } else if (index == 1) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CalculatorScreen()),
+              );
+            }
+            else if (index == 2) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AboutScreen()),
+              );
+            }
+          },
+        ),
       ),
-      child: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-              child: CircleAvatar(
-                child: Icon(Icons.home),
-                backgroundColor: Colors.blue,
-              ),
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-              child: CircleAvatar(
-                child: Icon(Icons.calculate),
-                backgroundColor: Colors.blue,
-              ),
-            ),
-            label: 'Calculator',
-          ),
-          BottomNavigationBarItem(
-            icon: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-              ),
-              child: CircleAvatar(
-                child: Icon(Icons.info),
-                backgroundColor: Colors.blue,
-              ),
-            ),
-            label: 'About',
-          ),
-        ],
-        selectedItemColor: Colors.blue,
-        currentIndex: _selectedIndex,
-        onTap: (int index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-          if (index == 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => HomeScreen()),
-            );
-          } else if (index == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CalculatorScreen()),
-            );
-          }
-        },
-      ),
-    ),
-  );
-}
-
+    );
+  }
 }
