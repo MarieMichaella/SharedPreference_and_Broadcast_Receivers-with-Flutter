@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:navigations/CalculatorView.dart';
-import 'package:navigations/main.dart';
+import 'package:provider/provider.dart';
+import 'CalculatorView.dart';
+import 'homescreen.dart';
+import 'themeprovider.dart'; 
 
 class AboutScreen extends StatefulWidget {
   const AboutScreen({Key? key}) : super(key: key);
@@ -14,113 +16,112 @@ class _AboutScreenState extends State<AboutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
-
-    bool isDarkTheme = theme.brightness == Brightness.dark;
-
     return Scaffold(
       appBar: AppBar(
         title: Text('About Us'),
       ),
-      backgroundColor: isDarkTheme ? Colors.black : Colors.white,
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(
+      body: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
+          ThemeData theme = themeProvider.themeData;
+          bool isDarkTheme = theme.brightness == Brightness.dark;
+          return SingleChildScrollView(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Column(
+                  children: [
+                    Text(
+                      'Welcome to Pet Guardians!',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: isDarkTheme ? Colors.white : Colors.black,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 200,
+                      width: 200,
+                      child: Center(
+                        child: Image.asset(
+                          'assets/images/image 2.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16.0),
                 Text(
-                  'Welcome to Pet Guardians!',
+                  'Our Mission:',
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: isDarkTheme ? Colors.white : Colors.black,
                   ),
                 ),
-SizedBox(
-  height: 200,
-  width: 200, 
-  child: Center(
-    child: Image.asset(
-      'assets/images/image 2.png',
-      fit: BoxFit.cover,
-    ),
-  ),
-),
-
+                SizedBox(height: 8.0),
+                Text(
+                  'At Our Pet Shop Adoption, we are dedicated to finding loving homes for pets in need. Our mission is to provide a safe and caring environment for animals while matching them with compassionate and responsible adopters.',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: isDarkTheme ? Colors.white : Colors.black,
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                Text(
+                  'Our Services:',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: isDarkTheme ? Colors.white : Colors.black,
+                  ),
+                ),
+                SizedBox(height: 8.0),
+                Text(
+                  '- Pet Adoption: We offer a variety of pets for adoption, including dogs, cats, rabbits, and more. Each animal in our care receives proper veterinary care and socialization to ensure they are ready for their forever home.',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: isDarkTheme ? Colors.white : Colors.black,
+                  ),
+                ),
+                SizedBox(height: 8.0),
+                Text(
+                  '- Pet Supplies: In addition to adoption services, we also provide a range of pet supplies to help you care for your new furry friend. From food and toys to grooming products, we have everything you need to keep your pet happy and healthy.',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: isDarkTheme ? Colors.white : Colors.black,
+                  ),
+                ),
+                SizedBox(height: 8.0),
+                Text(
+                  '- Community Outreach: We are committed to educating the community about responsible pet ownership and the importance of spaying and neutering. Through outreach programs and events, we strive to make a positive impact on animal welfare in our community.',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: isDarkTheme ? Colors.white : Colors.black,
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                Text(
+                  'Contact Us:',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: isDarkTheme ? Colors.white : Colors.black,
+                  ),
+                ),
+                SizedBox(height: 8.0),
+                Text(
+                  'Phone: (123) 456-7890\nEmail: info@ourpetshopadoption.com\nAddress: 1234 Pet Avenue, City, State, ZIP',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: isDarkTheme ? Colors.white : Colors.black,
+                  ),
+                ),
               ],
             ),
-SizedBox(height: 16.0),
-          Text(
-            'Our Mission:',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: isDarkTheme ? Colors.white : Colors.black,
-            ),
-          ),
-          SizedBox(height: 8.0),
-          Text(
-            'At Our Pet Shop Adoption, we are dedicated to finding loving homes for pets in need. Our mission is to provide a safe and caring environment for animals while matching them with compassionate and responsible adopters.',
-            style: TextStyle(
-              fontSize: 16,
-              color: isDarkTheme ? Colors.white : Colors.black,
-            ),
-          ),
-          SizedBox(height: 16.0),
-          Text(
-            'Our Services:',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: isDarkTheme ? Colors.white : Colors.black,
-            ),
-          ),
-          SizedBox(height: 8.0),
-          Text(
-            '- Pet Adoption: We offer a variety of pets for adoption, including dogs, cats, rabbits, and more. Each animal in our care receives proper veterinary care and socialization to ensure they are ready for their forever home.',
-            style: TextStyle(
-              fontSize: 16,
-              color: isDarkTheme ? Colors.white : Colors.black,
-            ),
-          ),
-          SizedBox(height: 8.0),
-          Text(
-            '- Pet Supplies: In addition to adoption services, we also provide a range of pet supplies to help you care for your new furry friend. From food and toys to grooming products, we have everything you need to keep your pet happy and healthy.',
-            style: TextStyle(
-              fontSize: 16,
-              color: isDarkTheme ? Colors.white : Colors.black,
-            ),
-          ),
-          SizedBox(height: 8.0),
-          Text(
-            '- Community Outreach: We are committed to educating the community about responsible pet ownership and the importance of spaying and neutering. Through outreach programs and events, we strive to make a positive impact on animal welfare in our community.',
-            style: TextStyle(
-              fontSize: 16,
-              color: isDarkTheme ? Colors.white : Colors.black,
-            ),
-          ),
-          SizedBox(height: 16.0),
-          Text(
-            'Contact Us:',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: isDarkTheme ? Colors.white : Colors.black,
-            ),
-          ),
-          SizedBox(height: 8.0),
-          Text(
-            'Phone: (123) 456-7890\nEmail: info@ourpetshopadoption.com\nAddress: 1234 Pet Avenue, City, State, ZIP',
-            style: TextStyle(
-              fontSize: 16,
-              color: isDarkTheme ? Colors.white : Colors.black,
-            ),
-          ),
-            
-          ],
-        ),
+          );
+        },
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
@@ -142,7 +143,7 @@ SizedBox(height: 16.0),
                 ),
                 child: CircleAvatar(
                   child: Icon(Icons.home),
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Color(0xFF5271FF),
                 ),
               ),
               label: 'Home',
@@ -154,7 +155,7 @@ SizedBox(height: 16.0),
                 ),
                 child: CircleAvatar(
                   child: Icon(Icons.calculate),
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Color(0xFF5271FF),
                 ),
               ),
               label: 'Calculator',
@@ -166,13 +167,13 @@ SizedBox(height: 16.0),
                 ),
                 child: CircleAvatar(
                   child: Icon(Icons.info),
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Color(0xFF5271FF),
                 ),
               ),
               label: 'About',
             ),
           ],
-          selectedItemColor: Colors.blue,
+          selectedItemColor: Color(0xFF5271FF),
           currentIndex: _selectedIndex,
           onTap: (int index) {
             setState(() {
@@ -188,8 +189,7 @@ SizedBox(height: 16.0),
                 context,
                 MaterialPageRoute(builder: (context) => CalculatorScreen()),
               );
-            }
-            else if (index == 2) {
+            } else if (index == 2) {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => AboutScreen()),

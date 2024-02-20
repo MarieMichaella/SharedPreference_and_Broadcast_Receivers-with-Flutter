@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:navigations/buttons.dart';
-import 'package:navigations/main.dart';
+import 'package:provider/provider.dart'; // Import the Provider package
+import 'homescreen.dart';
 import 'Aboutscreen.dart';
+import 'themeprovider.dart'; // Import the ThemeProvider class
 
 class CalculatorScreen extends StatefulWidget {
   const CalculatorScreen({Key? key}) : super(key: key);
@@ -15,147 +17,148 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
   String operand = "";
   String number2 = "";
 
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: Colors.black, 
-      appBar: AppBar(
-        title: Text('Calculator'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                reverse: true,
-                child: Container(
-                  alignment: Alignment.bottomRight,
-                  padding: const EdgeInsets.all(16),
-                  child: Text(
-                    "$number1$operand$number2".isEmpty
-                        ? "0"
-                        : "$number1$operand$number2",
-                    style: const TextStyle(
-                      fontSize: 48,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white, 
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        ThemeData theme = themeProvider.themeData;
+        bool isDarkTheme = theme.brightness == Brightness.dark;
+
+        final screenSize = MediaQuery.of(context).size;
+        return Scaffold(
+          backgroundColor: isDarkTheme ? Colors.black : Colors.white,
+          appBar: AppBar(
+            title: Text('Calculator'),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+          body: SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    reverse: true,
+                    child: Container(
+                      alignment: Alignment.bottomRight,
+                      padding: const EdgeInsets.all(16),
+                      child: Text(
+                        "$number1$operand$number2".isEmpty
+                            ? "0"
+                            : "$number1$operand$number2",
+                        style: TextStyle(
+                          fontSize: 48,
+                          fontWeight: FontWeight.bold,
+                          color: isDarkTheme ? Colors.white : Colors.black,
+                        ),
+                        textAlign: TextAlign.end,
+                      ),
                     ),
-                    textAlign: TextAlign.end,
                   ),
                 ),
-              ),
-            ),
 
-            // Buttons
-            Wrap(
-              children: Btn.buttonValues
-                  .map(
-                    (value) => SizedBox(
-                      width: value == Btn.n0
-                          ? screenSize.width / 4
-                          : (screenSize.width / 4),
-                      height: screenSize.width / 5,
-                      child: buildButton(value),
+                // Buttons
+                Wrap(
+                  children: Btn.buttonValues
+                      .map(
+                        (value) => SizedBox(
+                          width: value == Btn.n0
+                              ? screenSize.width / 4
+                              : (screenSize.width / 4),
+                          height: screenSize.width / 5,
+                          child: buildButton(value, isDarkTheme),
+                        ),
+                      )
+                      .toList(),
+                )
+              ],
+            ),
+          ),
+          bottomNavigationBar: Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 1,
+                  blurRadius: 10,
+                  offset: Offset(0, -1),
+                ),
+              ],
+            ),
+            child: BottomNavigationBar(
+              items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
                     ),
-                  )
-                  .toList(),
-            )
-          ],
-        ),
-      ),
-bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              spreadRadius: 1,
-              blurRadius: 10,
-              offset: Offset(0, -1), 
+                    child: CircleAvatar(
+                      child: Icon(Icons.home),
+                      backgroundColor: Color(0xFF5271FF),
+                    ),
+                  ),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: CircleAvatar(
+                      child: Icon(Icons.calculate),
+                      backgroundColor: Color(0xFF5271FF),
+                    ),
+                  ),
+                  label: 'Calculator',
+                ),
+                BottomNavigationBarItem(
+                  icon: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: CircleAvatar(
+                      child: Icon(Icons.info),
+                      backgroundColor: Color(0xFF5271FF),
+                    ),
+                  ),
+                  label: 'About',
+                ),
+              ],
+              selectedItemColor: Color(0xFF5271FF),
+              currentIndex: _selectedIndex,
+              onTap: (int index) {
+                if (index == 0) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                  );
+                } else if (index == 2) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AboutScreen()),
+                  );
+                }
+              },
             ),
-          ],
-        ),
-        child: BottomNavigationBar(
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                ),
-                child: CircleAvatar(
-                  child: Icon(Icons.home),
-                  backgroundColor: Colors.blue,
-                ),
-              ),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                ),
-                child: CircleAvatar(
-                  child: Icon(Icons.calculate),
-                  backgroundColor: Colors.blue,
-                ),
-              ),
-              label: 'Calculator',
-            ),
-            BottomNavigationBarItem(
-              icon: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                ),
-                child: CircleAvatar(
-                  child: Icon(Icons.info),
-                  backgroundColor: Colors.blue,
-                ),
-              ),
-              label: 'About',
-            ),
-          ],
-          selectedItemColor: Colors.blue,
-          currentIndex: _selectedIndex,
-          onTap: (int index) {
-            if (index == 0) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomeScreen()),
-              );
-            } else if (index == 1) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CalculatorScreen()),
-              );
-            } else if (index == 2) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AboutScreen()),
-              );
-            }
-          },
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
-
-  Widget buildButton(value) {
+  Widget buildButton(value, bool isDarkTheme) {
     return Padding(
       padding: const EdgeInsets.all(4.0),
       child: Material(
         color: getBtnColor(value),
         clipBehavior: Clip.hardEdge,
-        shape: const CircleBorder(), 
+        shape: const CircleBorder(),
         child: InkWell(
           onTap: () => onBtnTap(value),
           child: Center(
@@ -165,7 +168,7 @@ bottomNavigationBar: Container(
                 fontWeight: FontWeight.bold,
                 fontSize: 30,
                 color: (isNumber(value) || [Btn.calculate].contains(value))
-                    ? Colors.white
+                    ? isDarkTheme ? Colors.white : Colors.black // Adjust text color based on theme
                     : Colors.green,
               ),
             ),
